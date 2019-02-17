@@ -23,7 +23,7 @@ const TypeSelector = ({ options, onSelect }) => (
 export default class Form extends React.Component {
   constructor() {
     super();
-    this.state = { activeType: "" };
+    this.state = { activeType: data[0].title };
   }
 
   handleTypeChange = ({ target }) => {
@@ -37,7 +37,11 @@ export default class Form extends React.Component {
           onSelect={this.handleTypeChange}
           options={Object.keys(normalizedData)}
         />
-        <Fields />
+        {normalizedData[this.state.activeType].fields.map(field => (
+          <input placeholder={field.label} type={field.type} />
+        ))}
+
+        <div>result:</div>
       </Fragment>
     );
   }
