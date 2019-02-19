@@ -1,8 +1,6 @@
 import React, { Fragment } from "react";
 import { data } from "./data";
 
-console.log(data);
-
 const normalizedData = data.reduce((acc, curr) => {
   return {
     ...acc,
@@ -24,10 +22,17 @@ export default class Form extends React.Component {
   constructor() {
     super();
     this.state = { activeType: data[0].title };
+    this.formData = {};
   }
 
   handleTypeChange = ({ target }) => {
     this.setState({ activeType: target.value });
+    this.formData = {};
+  };
+
+  handleChange = ({ value, field }) => {
+    this.formData[field] = value;
+    console.log(this.formData);
   };
 
   render() {
@@ -38,7 +43,13 @@ export default class Form extends React.Component {
           options={Object.keys(normalizedData)}
         />
         {normalizedData[this.state.activeType].fields.map(field => (
-          <input placeholder={field.label} type={field.type} />
+          <input
+            onChange={({ target }) =>
+              this.handleChange({ value: target.value, field: field.label })
+            }
+            placeholder={field.label}
+            type={field.type}
+          />
         ))}
 
         <div>result:</div>
